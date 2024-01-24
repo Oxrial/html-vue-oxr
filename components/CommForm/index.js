@@ -66,7 +66,7 @@ Vue.component('comm-form', {
 		>
 			<form-item :dialog="dialog" :model="model" :form="form.filter((f) => !f.hideByUnion)">
 				<template v-for="(v,s) in $slots" #[s]="scope">
-					{{s}}{{ typeof (scope)}}<slot :name="s" v-bind="scope" :_="{}"> </slot>
+					<slot :name="s" v-bind="scope"> </slot>
 				</template>
 			</form-item>
 			<el-form-item class="form-operation" v-if="!nonOperation">

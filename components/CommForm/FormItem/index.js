@@ -19,9 +19,7 @@ Vue.component('form-item', {
 						:tag-class="f.tagClass || 'union-'+f.union"
 						:tag-is="f.is || 'div'"
 					>
-						<template v-for="(v,s) in $slots" #[s]="scope"
-							>{{s}} {{scope}}<slot :name="s" v-bind="scope"
-						/></template>
+						<template v-for="(v,s) in $slots" #[s]="scope"> <slot :name="s" v-bind="scope" /></template>
 					</form-item>
 					<el-form-item
 						v-else
