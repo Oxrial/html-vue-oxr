@@ -1,0 +1,27 @@
+.comm-form {
+	display: flex;
+	flex-wrap: wrap;
+	[class^='union-'] {
+		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.el-form-item {
+		margin: 10px 0;
+		&.half {
+			width: 50%;
+		}
+		&.full {
+			width: 100%;
+		}
+		.el-form-item__content {
+			width: calc(100% - 100px);
+			& > * {
+				width: 100%;
+			}
+		}
+		&.form-operation .el-form-item__content {
+			display: flex;
+		}
+	}
+}

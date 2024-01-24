@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link rel="stylesheet" href="./plugins/element-ui-2.15.14/theme-chalk/index.css" />
+		<link rel="stylesheet" href="./components/CommForm/index.css"></link>
+		<script src="./plugins/vue.js"></script>
+		<script src="./plugins/element-ui-2.15.14/index.js"></script> 
+		<script src="./plugins/lodash.min.js"></script>
+		<script type="module" src="./utils/index.js"></script>
+		<script type="module" src="./components/CommForm/FormItem/index.js"></script>
+		<script type="module" src="./components/CommForm/index.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div style=" border: 1px solid gray; margin: 0 auto; margin-top: 30vh; padding: 20px">
+				{{model}}
+				<comm-form :form="form" dialog :model="model" @submit="submit">
+						<template #other="scope">
+							<el-tag v-for="i in 10" :key="i"> {{i}}</el-tag>
+						</template>
+				</comm-form>
+			</div>
+		</div>
+	</body>
+	<script type="module">
+		new Vue({
+			el: '#app',
+			data() {
+				return {
+					model: { name: '',name1:'', age: '', sex: '' },
+					form: [
+						{ ...__.fi('姓名', 'Input', 'name'), rules: [__.setRequired('姓名')], union: 'c' },
+						{ ...__.fi('姓名1', 'Input', 'name1'), rules: [__.setRequired('姓名1')], union: 'c' },
+						{
+							...__.fi('性别', 'Select', 'sex', false, __.simpleOptions(['女', '男'])),
+							rules: [__.setRequired('性别', '')],  full:true,$fattrs:{}
+						},
+						{ ...__.fi('年龄', 'Input', 'age')  },
+						{ prop: 'other',label: '其他' }
+					]
+				}
+			},
+			methods: {
+				submit(obj) {
+					console.log('🚀 ~ submit ~ obj:', obj)
+				}
+			},
+			mounted() {
+				console.log(this)
+			}
+		})
+	</script>
+</html>

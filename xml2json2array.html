@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body></body>
+	<script>
+		function xmlDoc2JSON(_cn) {
+			const buffer = ['{']
+			generate(_cn)
+			function generate(node_list, i = 0) {
+				let ii = 0
+				Array.from(node_list).reduce(
+					(result, { nodeType, nodeName, childNodes }, index) => {
+						if ([3, 8].includes(nodeType)) return
+						if (childNodes.length > 1) {
+							buffer.push(`"${ii++}_${nodeName}": {`)
+							generate(childNodes, i++)
+						} else {
+							const value = childNodes[0]
+								? childNodes[0].nodeValue.replace(/"/g, '\\"')
+								: ''
+							buffer.push(`"${ii++}_${nodeName}":"${value}"`)
+						}
+						index < node_list.length - 2 && buffer.push(',')
+					},
+					buffer
+				)
+				buffer.push('}')
+
+				// let ii = 0
+				// for (let i = 0; i < node_list.length; i++) {
+				// 	const { nodeType, nodeName, childNodes } = node_list[i]
+				// 	if ([3, 8].includes(nodeType)) continue
+				// 	if (childNodes.length > 1) {
+				// 		buffer.push(`"${ii++}_${nodeName}": {`)
+				// 		generate(childNodes, i++)
+				// 	} else {
+				// 		// const firstChild = curr_node.childNodes[0]
+				// 		// firstChild != null
+				// 		// 	? buffer.push(
+				// 		// 			`"${ii++}_${
+				// 		// 				curr_node.nodeName
+				// 		// 			}":"${firstChild.nodeValue.replace(
+				// 		// 				/"/g,
+				// 		// 				'\\"'
+				// 		// 			)}"`
+				// 		// 	  )
+				// 		// 	: buffer.push(`"${ii++}_${curr_node.nodeName}":""`)
+				// 		let value = ''
+				// 		const [cn] = childNodes
+				// 		cn && (value = cn.nodeValue.replace(/"/g, '\\"'))
+				// 		buffer.push(`"${ii++}_${nodeName}":"${value}"`)
+				// 	}
+				// 	if (i < node_list.length - 2) buffer.push(',')
+				// 	else {
+				// 		break
+				// 	}
+				// }
+				// buffer.push('}')
+			}
+			return JSON.parse(buffer.join(''))
+		}
+		function xmlDoc2Array(_cn) {
+			function generate(node_list) {
+				return Array.from(node_list).reduce((result, n) => {
+					if (![3, 8].includes(n.nodeType)) {
+						result.push({
+							key: n.nodeName,
+							value:
+								n.childNodes.length > 1
+									? generate(n.childNodes)
+									: n.childNodes[0].nodeValue
+						})
+					}
+					return result
+				}, [])
+			}
+			return generate(_cn)
+		}
+		// ---->调用
+		const xmlReq = new XMLHttpRequest()
+		xmlReq.open('GET', 'x.xml', false)
+		xmlReq.send(null)
+		const xmlDoc = xmlReq.responseXML
+		// ---->转换
+		const map = xmlDoc2JSON(xmlDoc.childNodes)
+		console.log(map)
+		const array = xmlDoc2Array(xmlDoc.childNodes)
+		console.log(array)
+	</script>
+</html>

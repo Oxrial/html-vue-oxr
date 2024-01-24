@@ -1,0 +1,27 @@
+.comm-form {
+  display: flex;
+  flex-wrap: wrap;
+}
+.comm-form [class^=union-] {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.comm-form .el-form-item {
+  margin: 10px 0;
+}
+.comm-form .el-form-item.half {
+  width: 50%;
+}
+.comm-form .el-form-item.full {
+  width: 100%;
+}
+.comm-form .el-form-item .el-form-item__content {
+  width: calc(100% - 100px);
+}
+.comm-form .el-form-item .el-form-item__content > * {
+  width: 100%;
+}
+.comm-form .el-form-item.form-operation .el-form-item__content {
+  display: flex;
+}/*# sourceMappingURL=index.css.map */
